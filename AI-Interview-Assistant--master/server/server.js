@@ -27,8 +27,9 @@ const app = express();
 // Middleware
 app.use(cors({
   origin: (origin, callback) => {
-    // Allow requests with no origin (curl, mobile, etc.) or any localhost / 127.0.0.1 port
-    if (!origin || origin.includes('localhost') || origin.includes('127.0.0.1')) {
+    const clientUrl = process.env.CLIENT_URL;
+    // Allow requests with no origin (curl, mobile, etc.) or any localhost / client URL
+    if (!origin || origin.includes('localhost') || origin.includes('127.0.0.1') || (clientUrl && origin === clientUrl)) {
       return callback(null, true);
     }
     callback(null, true);
